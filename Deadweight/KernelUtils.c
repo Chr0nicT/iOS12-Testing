@@ -192,3 +192,13 @@ uint64_t find_kernel_base_sockpuppet() {
     }
     return 0;
 }
+
+bool hasTfp0()
+{
+    if (tfp0 == MACH_PORT_NULL)
+    {
+        return false;
+    } else {
+        return true;
+    }
+}

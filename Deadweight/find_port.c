@@ -5,6 +5,7 @@
 #include <mach/mach.h>
 
 #include "kernel_memory.h"
+#include "KernelUtils.h"
 #include "find_port.h"
 #include "OffsetHolder.h"
 #include "KernelUtils.h"
@@ -237,7 +238,7 @@ uint64_t find_port_via_proc_pidlistuptrs_bug(mach_port_t port, int disposition)
 
 uint64_t find_port_via_kmem_read(mach_port_name_t port)
 {
-    uint64_t task_port_addr = task_self_addr();
+    uint64_t task_port_addr = task_self_addr_cache;
     
     uint64_t task_addr = kernel_read64(task_port_addr + koffset(KSTRUCT_OFFSET_IPC_PORT_IP_KOBJECT));
     
@@ -268,7 +269,7 @@ uint64_t find_port_via_kmem_read_not(mach_port_name_t port)
 
 uint64_t find_port_address_sockpuppet(mach_port_t port, int disposition)
 {
-    if (have_kmem_read()) {
+    if (hasTfp0()) {
         return find_port_via_kmem_read_not(port);
     }
     return find_port_via_proc_pidlistuptrs_bug(port, disposition);
@@ -276,7 +277,7 @@ uint64_t find_port_address_sockpuppet(mach_port_t port, int disposition)
 
 uint64_t find_port_address(mach_port_t port, int disposition)
 {
-    if (have_kmem_read()) {
+    if (hasTfp0()) {
         return find_port_via_kmem_read(port);
     }
     return find_port_via_proc_pidlistuptrs_bug(port, disposition);

@@ -23,12 +23,11 @@ bool rkbuffer(uint64_t kaddr, void* buffer, size_t length);
 uint64_t ReadKernel64(uint64_t kaddr);
 void WriteKernel64(uint64_t kaddr, uint64_t val);
 uint64_t kmem_alloc(uint64_t size);
-uint64_t task_self_addr(void);
 uint32_t ReadKernel32(uint64_t kaddr);
 void kmemcpy(uint64_t dest, uint64_t src, uint32_t length);
 void WriteKernel32(uint64_t kaddr, uint32_t val);
-bool have_kmem_read(void);
 bool kmem_free(uint64_t kaddr, uint64_t size);
 void set_tfp0(mach_port_t tfp00);
 uint64_t find_kernel_base_sockpuppet(void);
+bool hasTfp0(void);
 #endif /* KernelUtils_h */
